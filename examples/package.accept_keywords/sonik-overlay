@@ -1,0 +1,2 @@
+# Unmask everything in river-wm-overlay
+*/*::river-wm-overlay **
