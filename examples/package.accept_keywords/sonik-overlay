@@ -1,2 +1,2 @@
-# Unmask everything in river-wm-overlay
-*/*::river-wm-overlay **
+# Unmask everything in sonik-overlay
+*/*::sonik-overlay **
