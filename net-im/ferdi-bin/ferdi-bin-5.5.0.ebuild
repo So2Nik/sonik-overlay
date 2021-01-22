@@ -52,7 +52,7 @@ src_install() {
 	dodir ${FERDI_HOME%/*}
 
 	insinto ${FERDI_HOME}
-		doins -r opt/*
+		doins -r opt/${_PN^}/*
     
     exeinto ${FERDI_HOME}
         exeopts -m0755
