@@ -37,7 +37,7 @@ QA_PREBUILT="*"
 S=${WORKDIR}
 
 src_unpack() {
-    xz -d ${DISTDIR}/${_PN}-${PV}.x86_64.rpm
+    unxz -f ${DISTDIR}/${_PN}-${PV}.x86_64.rpm
 }
 
 src_prepare() {
