@@ -37,7 +37,7 @@ QA_PREBUILT="*"
 S=${WORKDIR}
 
 src_unpack() {
-    unxz -f ${DISTDIR}/${_PN}-${PV}.x86_64.rpm
+    bsdtar -x -f ${DISTDIR}/${_PN}-${PV}.x86_64.rpm
 }
 
 src_prepare() {
