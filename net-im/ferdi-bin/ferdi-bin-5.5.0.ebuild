@@ -38,9 +38,9 @@ HOMEPAGE="https://get${FERDI_PN}.com"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-SRC_URI="https://github.com/get${FERDI_PN}/${FERDI_PN}/archive/v${PV}.tar.gz
-	      https://github.com/get${FERDI_PN}/recipes/archive/$_recipescommit.tar.gz
-	      https://github.com/get${FERDI_PN}/internal-server/archive/$_internalservercommit.tar.gz"
+SRC_URI="https://github.com/get${FERDI_PN}/${FERDI_PN}/archive/v${PV}.tar.gz -> ${PN}-v${PV}.tar.gz
+	      https://github.com/get${FERDI_PN}/recipes/archive/$_recipescommit.tar.gz -> ${PN}-$_recipescommit.tar.gz
+	      https://github.com/get${FERDI_PN}/internal-server/archive/$_internalservercommit.tar.gz -> ${PN}-$_internalservercommit.tar.gz"
         
 RDEPEND="dev-util/electron:8
         x11-libs/libxkbfile"
@@ -76,7 +76,7 @@ src_prepare() {
 	sed -i "s|import isDev from 'electron-is-dev'|const isDev = false|g" 'src/environment.js'
 
 	# Specify path for autostart file
-	patch --forward -p1 < '../fix-autostart-path.diff'
+	patch --forward -p1 < '${FILESDIR}/fix-autostart-path.diff'
 
 	# Prepare dependencies
 	HOME="${S}/$_homedirectory" npx lerna bootstrap
