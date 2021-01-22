@@ -51,6 +51,8 @@ BDEPEND="dev-vcs/git
               python:3.8
               python:3.9
            )"
+           
+DEPEND="!net-im/ferdi-bin"
 
 S=${WORKDIR}
 

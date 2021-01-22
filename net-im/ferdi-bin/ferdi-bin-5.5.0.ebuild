@@ -32,6 +32,8 @@ RDEPEND="media-libs/alsa-lib
         dev-libs/re2
         app-arch/snappy"
         
+DEPEND="!netim/ferdi"
+        
 QA_PREBUILT="*"
 
 S=${WORKDIR}
