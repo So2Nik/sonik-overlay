@@ -44,12 +44,13 @@ src_prepare() {
 
 src_install() {
     exeinto /opt/${_PN}
-        doexe -r --no-preserve=ownership --preserve=mode "${S}/opt/${_PN^}/*"
+        exeopts -r --no-preserve=ownership --preserve=mode
+        doexe "${S}/opt/${_PN^}/*"
 
 	dosym "${S}/opt/${_PN}/${_PN}" "/usr/bin/${_PN}" || die
 
 	insinto /usr/share/applications
-    doins ${S}/usr/share/applications/${_PN}.desktop
+        doins ${S}/usr/share/applications/${_PN}.desktop
 
 	for _size in 16 24 32 48 64 96 128 256 512 1024; do
         insinto /usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
