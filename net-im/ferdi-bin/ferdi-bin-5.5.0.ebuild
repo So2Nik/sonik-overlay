@@ -36,6 +36,10 @@ QA_PREBUILT="*"
 
 S=${WORKDIR}
 
+src_unpack() {
+    xz -d ${DISTDIR}/${_PN}-${PV}.x86_64.rpm
+}
+
 src_prepare() {
 	sed -E -i -e "s|Exec=/opt/${_PN^}/${_PN}|Exec=/usr/bin/${_PN}|" "${S}/usr/share/applications/${_PN}.desktop"
 	
