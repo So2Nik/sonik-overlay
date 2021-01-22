@@ -43,11 +43,18 @@ src_prepare() {
 }
 
 src_install() {
-    exeinto /opt/${_PN}
-        exeopts -r --no-preserve=ownership --preserve=mode
-        doexe "${S}/opt/${_PN^}/*"
+    declare FERDI_HOME=/opt/${_PN}
 
-	dosym "${S}/opt/${_PN}/${_PN}" "/usr/bin/${_PN}" || die
+	dodir ${FERDI_HOME%/*}
+
+	insinto ${FERDI_HOME}
+		doins -r *
+    
+    exeinto ${FERDI_HOME}
+        exeopts -m0755
+        doexe "${S}/opt/${_PN^}/${_PN}"
+
+	dosym "${FERDI_HOME}/${_PN}" "/usr/bin/${_PN}" || die
 
 	insinto /usr/share/applications
         doins ${S}/usr/share/applications/${_PN}.desktop
