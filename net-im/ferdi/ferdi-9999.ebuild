@@ -3,8 +3,6 @@
 
 EAPI=6
 
-_recipescommit='3054fd4c362b5be81b5cdd48535a0e7078fcd0a6'
-_internalservercommit='95ae59926dbd88d55a5377be997558a9e112ab49'
 _sourcedirectory="${PN}-${PV}"
 _homedirectory="${PN}-${PVR}-home"
 
@@ -29,7 +27,7 @@ if [ "$_electronbuilderarch" != 'x64' ]; then
 fi
 _outpath="$_outpath-unpacked"
 
-inherit xdg-utils
+inherit xdg-utils git-r3
 
 DESCRIPTION="A messaging browser that allows you to combine your favorite messaging services into one application"
 HOMEPAGE="https://get${PN}.com"
@@ -37,11 +35,13 @@ HOMEPAGE="https://get${PN}.com"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-SRC_URI="https://github.com/get${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-v${PV}.tar.gz
-	      https://github.com/get${PN}/recipes/archive/$_recipescommit.tar.gz -> ${PN}-$_recipescommit.tar.gz
-	      https://github.com/get${PN}/internal-server/archive/$_internalservercommit.tar.gz -> ${PN}-$_internalservercommit.tar.gz"
+EGIT_REPO_URI="https://github.com/get${PN}/${PN}.git
+	      https://github.com/get${PN}/recipes.git
+	      https://github.com/get${PN}/internal-server.git"
+	      
+PATCHES=( "${FILESDIR}"/fix-autostart-path-git.diff )
         
-RDEPEND="dev-util/electron:8
+RDEPEND="dev-util/electron:9
         x11-libs/libxkbfile"
         
 BDEPEND="dev-vcs/git
@@ -58,23 +58,27 @@ src_prepare() {
 	cd "${S}/$_sourcedirectory/"
 
 	# Provide git submodules
-	rm -rf 'recipes/' 'src/internal-server/'
-	mv "../recipes-$_recipescommit/" 'recipes/'
-	mv "../internal-server-$_internalservercommit/" 'src/internal-server/'
+	git submodule init
+	git config submodule.recipes.url "${S}/${PN}-recipes"
+	git config submodule.src/internal-server.url "${S}/${PN}-internal-server"
+	git submodule update --init --recursive
 
 	# Set system Electron version for ABI compatibility
-	sed -E -i -e 's|("electron": ").*"|\1'"$(cat '/usr/lib/electron8/version')"'"|' 'package.json'
-
-	# Set node-sass version for node 14 compatibility
-	sed -E -i 's|("node-sass": ").*"|\14.14.0"|' 'package.json'
+	sed -E -i 's|("electron": ").*"|\1'"$(cat '/usr/lib/electron9/version')"'"|' 'package.json'
 
 	# Prevent Ferdi from being launched in dev mode
 	sed -i "s|import isDevMode from 'electron-is-dev'|const isDevMode = false|g" 'src/index.js' 'src/config.js'
 	sed -i "s|import isDev from 'electron-is-dev'|const isDev = false|g" 'src/environment.js'
 
 	# Specify path for autostart file
-	patch --forward -p1 < '${FILESDIR}/fix-autostart-path.diff'
+	patch --forward -p1 < '${FILESDIR}/fix-autostart-path-git.diff'
 
+	# Build recipe archives
+	cd "${S}/$_sourcedirectory/recipes/"
+	HOME="${S}/$_homedirectory" npm install
+	HOME="${S}/$_homedirectory" npm run package
+	cd "${S}/$_sourcedirectory/"
+	
 	# Prepare dependencies
 	HOME="${S}/$_homedirectory" npx lerna bootstrap
 
@@ -83,12 +87,12 @@ src_prepare() {
 		HOME="${S}/$_homedirectory" npm rebuild node-sass
 	fi
 	
-    cat << EOF > "${S}/usr/bin/${PN}"
+	cat << EOF > "${S}/usr/bin/${PN}"
 #!/bin/sh
-NODE_ENV=production exec electron8 '/usr/lib/${PN}/app.asar' "\$@"
+NODE_ENV=production exec electron9 '/usr/lib/${PN}/app.asar' "\$@"
 EOF
-	
-	cat << EOF > "${S}/usr/share/applications/${PN}.desktop"
+
+    cat << EOF > "${S}/usr/share/applications/${PN}.desktop"
 [Desktop Entry]
 Name=${PN^}
 Exec=/usr/bin/${PN} %U
@@ -108,7 +112,7 @@ src_compile() {
     cd "${S}/$_sourcedirectory/"
 
 	NODE_ENV='production' HOME="${S}/$_homedirectory" npx gulp build
-	NODE_ENV='production' HOME="${S}/$_homedirectory" npx electron-builder --linux dir "--$_electronbuilderarch" -c.electronDist='/usr/lib/electron8' -c.electronVersion="$(cat '/usr/lib/electron8/version')"
+	NODE_ENV='production' HOME="${S}/$_homedirectory" npx electron-builder --linux dir "--$_electronbuilderarch" -c.electronDist='/usr/lib/electron9' -c.electronVersion="$(cat '/usr/lib/electron9/version')"
 }
 
 src_install() {
