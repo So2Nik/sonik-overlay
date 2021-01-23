@@ -3,7 +3,7 @@
 
 EAPI=6
 
-FREETUBE_PN="${PN/-bin/}"
+_PN="${PN/-bin/}"
 
 inherit xdg-utils
 
@@ -26,13 +26,14 @@ src_prepare() {
 	mv opt/FreeTube/* .
     
     rm data.tar.xz control.tar.gz debian-binary
+	rm -rf usr/share/applications
 	rm -rf opt
 	
 	default
 }
 
 src_install() {
-	declare FREETUBE_HOME=/opt/${FREETUBE_PN}
+	declare FREETUBE_HOME=/opt/${_PN}
 
 	dodir ${FREETUBE_HOME%/*}
 
@@ -47,12 +48,14 @@ src_install() {
         exeopts -m0755
 		doexe freetube
 
-	dosym ${FREETUBE_HOME}/freetube /usr/bin/${PN} || die
+	dosym ${FREETUBE_HOME}/freetube /usr/bin/${_PN} || die
 
-    insinto /usr/share/pixmaps/${PN}.png
-        doins ${FILESDIR}/freetube-bin-icon.png
+    for _size in 16 32 48 64 128 256; do
+        insinto /usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
+            doins ${S}/usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
+	done
 
-    insinto /usr/share/applications/${PN}.desktop
+    insinto /usr/share/applications/${_PN}.desktop
         doins ${FILESDIR}/freetube-bin.desktop
 }
 
