@@ -56,7 +56,7 @@ src_install() {
 	done
 
     insinto /usr/share/applications/${_PN}.desktop
-        doins ${FILESDIR}/freetube-bin.desktop
+        doins ${FILESDIR}/${_PN}.desktop
 }
 
 pkg_postinst() {

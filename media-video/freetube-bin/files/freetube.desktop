@@ -2,8 +2,10 @@
 Name=FreeTube
 GenericName=YouTube Player
 Comment=An open source desktop YouTube player built with privacy in mind.
-Exec=freetube-bin
+Exec=/opt/freetube/freetube %U
 Terminal=false
 Type=Application
-Icon=freetube-bin
+Icon=freetube
 Categories=Network;
+StartupWMClass=FreeTube
+MimeType=x-scheme-handler/freetube;
