@@ -135,11 +135,16 @@ src_install() {
 
 #	domenu "usr/share/applications/${PN}.desktop"
 
-	for _size in 16 24 32 48 64 96 128 256 512 1024; do
-        newicon -s ${_size} "${_sourcedirectory}/build-helpers/images/icons/${_size}x${_size}.png" "${PN}.png"
-	done
-	
-	newicon "${_sourcedirectory}/build-helpers/images/icons/128x128.png" "${PN}.png"
+	for _size in 16 24 32 48 64 96 128 256 512; do
+        newicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png" || die
+    done
+    
+    # desktop eclass does not support installing 1024x1024 icons
+    insinto /usr/share/icons/hicolor/1024x1024/apps
+        newins "usr/share/icons/hicolor/1024x1024/apps/${_PN}.png" "${PN}.png" || die
+    
+    # Installing 128x128 icon in /usr/share/pixmaps for legacy DEs
+    newicon "usr/share/icons/hicolor/128x128/apps/${_PN}.png" "${PN}.png" || die
 }
 
 pkg_postinst() {
