@@ -48,11 +48,11 @@ src_install() {
 	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${_PN} || die
 
     for _size in 16 32 48 64 128 256; do
-        insinto /usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
+        insinto /usr/share/icons/hicolor/${_size}x${_size}/apps
             doins usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
 	done
 
-    insinto /usr/share/applications/${_PN}.desktop
+    insinto /usr/share/applications
         doins ${FILESDIR}/${_PN}.desktop
 }
 
