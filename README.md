@@ -27,3 +27,7 @@ emaint sync -r sonik-overlay
 ## It says the ebuild is masked, what do I do?
 
 See [examples/package.accept_keywords/sonik-overlay](https://github.com/So2Nik/sonik-overlay/blob/master/examples/package.accept_keywords/sonik-overlay).
+
+### Instructions for ferdi
+
+Enable [menelkir overlay](https://gitlab.com/menelkir/gentoo-overlay) and unmask electron packages if needed.

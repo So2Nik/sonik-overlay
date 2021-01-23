@@ -48,11 +48,11 @@ src_install() {
 	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${PN} || die
 
     for _size in 16 32 48 64 128 256; do
-        newicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png"
+        newicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png" || die
 	done
-
-    # Install a 256x256 icon into /usr/share/pixmaps for legacy DEs
-	newicon "usr/share/icons/hicolor/256x256/apps/${_PN}.png" "${PN}.png"
+	
+	# Install a 256x256 icon into /usr/share/pixmaps for legacy DEs
+	newicon "usr/share/icons/hicolor/256x256/apps/${_PN}.png" "${PN}.png" || die
 
     newmenu "${FILESDIR}/${_PN}.desktop" "${PN}.desktop"
 }
