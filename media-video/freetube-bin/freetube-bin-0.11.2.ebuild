@@ -5,7 +5,7 @@ EAPI=6
 
 _PN="${PN/-bin/}"
 
-inherit xdg-utils
+inherit desktop xdg-utils
 
 DESCRIPTION="An open source desktop YouTube player built with privacy in mind."
 HOMEPAGE="https://github.com/FreeTubeApp/FreeTube"
