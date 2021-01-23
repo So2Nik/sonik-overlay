@@ -21,13 +21,10 @@ QA_PREBUILT="*"
 S=${WORKDIR}
 
 src_prepare() {
-	bsdtar -x -f data.tar.xz opt/FreeTube
-	
-	mv opt/FreeTube/* .
+	bsdtar -x -f data.tar.xz
     
     rm data.tar.xz control.tar.gz debian-binary
 	rm -rf usr/share/applications
-	rm -rf opt
 	
 	default
 }
@@ -38,17 +35,17 @@ src_install() {
 	dodir ${FREETUBE_HOME%/*}
 
 	insinto ${FREETUBE_HOME}
-		doins -r *
+		doins -r opt/FreeTube/*
 
 	exeinto ${FREETUBE_HOME}
         exeopts -m4755
-        doexe chrome-sandbox
+        doexe opt/FreeTube/chrome-sandbox
 		
 	exeinto ${FREETUBE_HOME}
         exeopts -m0755
-		doexe freetube
+		doexe opt/FreeTube/${_PN}
 
-	dosym ${FREETUBE_HOME}/freetube /usr/bin/${_PN} || die
+	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${_PN} || die
 
     for _size in 16 32 48 64 128 256; do
         insinto /usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png

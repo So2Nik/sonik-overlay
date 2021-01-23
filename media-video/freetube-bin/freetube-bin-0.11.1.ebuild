@@ -21,7 +21,7 @@ QA_PREBUILT="*"
 S=${WORKDIR}
 
 src_prepare() {
-	bsdtar -x -f data.tar.xz opt/FreeTube
+	bsdtar -x -f data.tar.xz
 	
 	mv opt/FreeTube/* .
     
