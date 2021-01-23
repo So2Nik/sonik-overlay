@@ -5,7 +5,7 @@ EAPI=6
 
 _PN="${PN/-bin/}"
 
-inherit xdg-utils
+inherit desktop xdg-utils
 
 DESCRIPTION="A messaging browser that allows you to combine your favorite messaging services into one application"
 HOMEPAGE="https://get${_PN}.com"
@@ -43,7 +43,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	sed -E -i -e "s|Exec=/opt/${_PN^}/${_PN}|Exec=/usr/bin/${_PN}|" "${S}/usr/share/applications/${_PN}.desktop"
+	sed -E -i -e "s|Exec=/opt/${_PN^}/${_PN}|Exec=/usr/bin/${PN}|" "usr/share/applications/${_PN}.desktop"
 	
 	default
 }
@@ -58,17 +58,17 @@ src_install() {
     
     exeinto ${FERDI_HOME}
         exeopts -m0755
-        doexe "${S}/opt/${_PN^}/${_PN}"
+        doexe "opt/${_PN^}/${_PN}"
 
-	dosym "${FERDI_HOME}/${_PN}" "/usr/bin/${_PN}" || die
+	dosym "${FERDI_HOME}/${_PN}" "/usr/bin/${PN}" || die
 
-	insinto /usr/share/applications
-        doins ${S}/usr/share/applications/${_PN}.desktop
+	newmenu usr/share/applications/${_PN}.desktop ${PN}.desktop
 
 	for _size in 16 24 32 48 64 96 128 256 512 1024; do
-        insinto /usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
-            doins ${S}/usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
-	done
+        newicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png" || die
+    done
+    
+    newicon "usr/share/icons/hicolor/128x128/apps/${_PN}.png" "${PN}.png" || die
 	
 	for _license in 'LICENSE.electron.txt' 'LICENSES.chromium.html'; do
 		dosym "/opt/${_PN}/$_license" "/usr/share/licenses/${PN}/$_license" || die

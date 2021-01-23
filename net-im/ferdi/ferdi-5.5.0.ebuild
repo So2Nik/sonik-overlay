@@ -41,6 +41,8 @@ SRC_URI="https://github.com/get${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-v${PV}
 	      https://github.com/get${PN}/recipes/archive/$_recipescommit.tar.gz -> ${PN}-$_recipescommit.tar.gz
 	      https://github.com/get${PN}/internal-server/archive/$_internalservercommit.tar.gz -> ${PN}-$_internalservercommit.tar.gz"
         
+PATCHES=( "${FILESDIR}"/fix-autostart-path.diff )
+
 RDEPEND="dev-util/electron:8
         x11-libs/libxkbfile"
         
@@ -57,7 +59,7 @@ DEPEND="!net-im/ferdi-bin"
 S=${WORKDIR}
 
 src_prepare() {
-	cd "${S}/$_sourcedirectory/"
+	cd "$_sourcedirectory/"
 
 	# Provide git submodules
 	rm -rf 'recipes/' 'src/internal-server/'
@@ -85,59 +87,59 @@ src_prepare() {
 		HOME="${S}/$_homedirectory" npm rebuild node-sass
 	fi
 	
-    cat << EOF > "${S}/usr/bin/${PN}"
+    cat << EOF > "usr/bin/${PN}"
 #!/bin/sh
 NODE_ENV=production exec electron8 '/usr/lib/${PN}/app.asar' "\$@"
 EOF
 	
-	cat << EOF > "${S}/usr/share/applications/${PN}.desktop"
-[Desktop Entry]
-Name=${PN^}
-Exec=/usr/bin/${PN} %U
-Terminal=false
-Type=Application
-Icon=${PN}
-StartupWMClass=${PN^}
-Comment=Ferdi is your messaging app / former Emperor of Austria and combines chat & messaging services into one application. Ferdi currently supports Slack, WhatsApp, WeChat, HipChat, Facebook Messenger, Telegram, Google Hangouts, GroupMe, Skype and many more. You can download Ferdi for free for Mac & Windows.
-MimeType=x-scheme-handler/ferdi;
-Categories=Network;InstantMessaging;
-EOF
-	
+#	cat << EOF > "usr/share/applications/${PN}.desktop"
+#[Desktop Entry]
+#Name=${PN^}
+#Exec=/usr/bin/${PN} %U
+#Terminal=false
+#Type=Application
+#Icon=${PN}
+#StartupWMClass=${PN^}
+#Comment=Ferdi is your messaging app / former Emperor of Austria and combines chat & messaging services into one application. Ferdi currently supports Slack, WhatsApp, WeChat, HipChat, Facebook Messenger, Telegram, Google Hangouts, GroupMe, Skype and many more. You can download Ferdi for free for Mac & Windows.
+#MimeType=x-scheme-handler/ferdi;
+#Categories=Network;InstantMessaging;
+#EOF
+
 	default
 }
 
 src_compile() {
-    cd "${S}/$_sourcedirectory/"
+    cd "$_sourcedirectory/"
 
 	NODE_ENV='production' HOME="${S}/$_homedirectory" npx gulp build
 	NODE_ENV='production' HOME="${S}/$_homedirectory" npx electron-builder --linux dir "--$_electronbuilderarch" -c.electronDist='/usr/lib/electron8' -c.electronVersion="$(cat '/usr/lib/electron8/version')"
 }
 
 src_install() {
-    declare FERDI_HOME="${S}/$_sourcedirectory/"
-
 	insinto /usr/lib/${PN}
-        doins ${FERDI_HOME}/${_outpath}/resources/app.asar
+        doins ${_sourcedirectory}/${_outpath}/resources/app.asar
     
-    exeinto /usr/lib/${PN}/app.asar.unpacked
-        doexe -r ${S}/usr/lib/${PN}/app.asar.unpacked/*
+    insinto /usr/lib/${PN}/app.asar.unpacked
+        doins -r usr/lib/${PN}/app.asar.unpacked/*
     
     insinto /usr/lib/${PN}/app.asar.unpacked/recipes
-        doins -r --no-preserve=ownership --preserve=mode ${FERDI_HOME}/${_outpath}/resources/app.asar.unpacked/recipes/*
+        doins -r ${_sourcedirectory}/${_outpath}/resources/app.asar.unpacked/recipes/*
 
-	exeinto /usr/bin
-        doexe -r ${S}/usr/bin/*
+	insinto /usr/bin
+        doins -r usr/bin/*
   
     exeinto /usr/bin
-        doexe ${S}/usr/bin/${PN}
+        doexe "usr/bin/${PN}"
+        
+    make_desktop_entry "/usr/bin/${PN} %U" "${PN^}" "${PN}" "Network;InstantMessaging;" "Type=Application\nStartupWMClass=${PN^}\nComment=Ferdi is your messaging app / former Emperor of Austria and combines chat & messaging services into one application. Ferdi currently supports Slack, WhatsApp, WeChat, HipChat, Facebook Messenger, Telegram, Google Hangouts, GroupMe, Skype and many more. You can download Ferdi for free for Mac & Windows.\nMimeType=x-scheme-handler/ferdi;\nTerminal=false"
 
-	insinto /usr/share/applications
-        doins ${S}/usr/share/applications/${PN}.desktop
+#	domenu "usr/share/applications/${PN}.desktop"
 
 	for _size in 16 24 32 48 64 96 128 256 512 1024; do
-        insinto /usr/share/icons/hicolor/${_size}x${_size}/apps/${PN}.png
-            doins ${FERDI_HOME}/build-helpers/images/icons/${_size}x${_size}.png
+        newicon -s ${_size} "${_sourcedirectory}/build-helpers/images/icons/${_size}x${_size}.png" "${PN}.png"
 	done
+	
+	newicon "${_sourcedirectory}/build-helpers/images/icons/128x128.png" "${PN}.png"
 }
 
 pkg_postinst() {
