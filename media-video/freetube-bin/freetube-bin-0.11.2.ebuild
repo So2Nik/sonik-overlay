@@ -45,15 +45,19 @@ src_install() {
         exeopts -m0755
 		doexe opt/FreeTube/${_PN}
 
-	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${_PN} || die
+	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${PN} || die
 
     for _size in 16 32 48 64 128 256; do
-        insinto /usr/share/icons/hicolor/${_size}x${_size}/apps
-            doins usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png
+        insinto "/usr/share/icons/hicolor/${_size}x${_size}/apps"
+            newins "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png"
 	done
+	
+	# Install a 256x256 icon into /usr/share/pixmaps for legacy DEs
+	newicon "usr/share/icons/hicolor/256x256/apps/${_PN}.png" "${PN}.png"
 
-    insinto /usr/share/applications
-        doins ${FILESDIR}/${_PN}.desktop
+#    insinto /usr/share/applications
+#       doins ${FILESDIR}/${_PN}.desktop
+    newmenu "${FILESDIR}/${_PN}.desktop" "${PN}.desktop"
 }
 
 pkg_postinst() {

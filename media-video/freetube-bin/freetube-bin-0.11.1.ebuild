@@ -3,7 +3,7 @@
 
 EAPI=6
 
-FREETUBE_PN="${PN/-bin/}"
+_PN="${PN/-bin/}"
 
 inherit xdg-utils
 
@@ -22,38 +22,42 @@ S=${WORKDIR}
 
 src_prepare() {
 	bsdtar -x -f data.tar.xz
-	
-	mv opt/FreeTube/* .
     
     rm data.tar.xz control.tar.gz debian-binary
-	rm -rf opt
+	rm -rf usr/share/applications
 	
 	default
 }
 
 src_install() {
-	declare FREETUBE_HOME=/opt/${FREETUBE_PN}
+	declare FREETUBE_HOME=/opt/${_PN}
 
 	dodir ${FREETUBE_HOME%/*}
 
 	insinto ${FREETUBE_HOME}
-		doins -r *
+		doins -r opt/FreeTube/*
 
 	exeinto ${FREETUBE_HOME}
         exeopts -m4755
-        doexe chrome-sandbox
+        doexe opt/FreeTube/chrome-sandbox
 		
 	exeinto ${FREETUBE_HOME}
         exeopts -m0755
-		doexe freetube
+		doexe opt/FreeTube/${_PN}
 
-	dosym ${FREETUBE_HOME}/freetube /usr/bin/${PN} || die
+	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${PN} || die
 
-    insinto /usr/share/pixmaps/${PN}.png
-        doins ${FILESDIR}/freetube-bin-icon.png
+    for _size in 16 32 48 64 128 256; do
+        insinto "/usr/share/icons/hicolor/${_size}x${_size}/apps"
+            newins "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png"
+	done
 
-    insinto /usr/share/applications/${PN}.desktop
-        doins ${FILESDIR}/freetube-bin.desktop
+    # Install a 256x256 icon into /usr/share/pixmaps for legacy DEs
+	newicon "usr/share/icons/hicolor/256x256/apps/${_PN}.png" "${PN}.png"
+
+#    insinto /usr/share/applications
+#       doins ${FILESDIR}/${_PN}.desktop
+    newmenu "${FILESDIR}/${_PN}.desktop" "${PN}.desktop"
 }
 
 pkg_postinst() {
