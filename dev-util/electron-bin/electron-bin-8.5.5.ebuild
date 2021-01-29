@@ -48,11 +48,11 @@ QA_PREBUILT="*"
 
 S=${WORKDIR}
 
-src_prepare() {
-	find . -mindepth 1 -maxdepth 1 -type f ! -name "*.zip" ! -name "LICENSE*" -exec cp -r --no-preserve=ownership --preserve=mode -t "usr/lib/${_PN}8/." {} +
-	
-	default
-}
+#src_prepare() {
+#	find . -mindepth 1 -maxdepth 1 -type f ! -name "*.zip" ! -name "LICENSE*" -exec cp -r --no-preserve=ownership --preserve=mode -t "usr/lib/${_PN}8/." {} +
+#	
+#	default
+#}
 
 src_install() {
     declare ELECTRON_HOME=/usr/lib/${_PN}8
