@@ -1127,7 +1127,7 @@ SRC_URI="
 #"
 
 LICENSE="BSD"
-SLOT="${PV}"
+SLOT="8"
 KEYWORDS="amd64 ~x86"
 IUSE="+clang closure-compile cups custom-cflags enable-driver gnome hangouts kerberos optimize-thinlto optimize-webui +proprietary-codecs pulseaudio selinux +system-ffmpeg +system-harfbuzz +system-icu +system-jsoncpp +system-libevent +system-libvpx +system-openh264 system-openjpeg +tcmalloc thinlto vaapi vdpau"
 RESTRICT="
@@ -1219,6 +1219,7 @@ RDEPEND="${COMMON_DEPEND}
 	!www-client/chromium
 	!www-client/chromium-bin
 	!www-client/ungoogled-chromium-bin
+	!dev-util/electron-bin:8
 "
 DEPEND="${COMMON_DEPEND}
 "

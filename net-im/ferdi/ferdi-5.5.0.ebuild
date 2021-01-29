@@ -43,7 +43,9 @@ SRC_URI="https://github.com/get${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-v${PV}
         
 PATCHES=( "${FILESDIR}"/fix-autostart-path.diff )
 
-RDEPEND="dev-util/electron:8
+RDEPEND="|| ( dev-util/electron:8
+              dev-util/electron-bin:8
+            )
         x11-libs/libxkbfile"
         
 BDEPEND="dev-vcs/git
