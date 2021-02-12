@@ -23,6 +23,7 @@ src_prepare() {
         rm squashfs-root/AppRun
         mv squashfs-root/${PN}.desktop ${PN}.desktop
         sed '/X-AppImage-Integrate/d' ${PN}.desktop
+        default
 }
 
 src_install() {
