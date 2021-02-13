@@ -48,35 +48,27 @@ QA_PREBUILT="*"
 
 S=${WORKDIR}
 
-src_prepare() {
-	find . -mindepth 1 -maxdepth 1 -type f ! -name "*.zip" ! -name "LICENSE*" -exec cp -r --no-preserve=ownership --preserve=mode -t "usr/lib/${_PN}8/." {} +
-	
-	default
-}
+#src_prepare() {
+#	find . -mindepth 1 -maxdepth 1 -type f ! -name "*.zip" ! -name "LICENSE*" -exec cp -r --no-preserve=ownership --preserve=mode -t "usr/lib/${_PN}8/." {} +
+#	
+#	default
+#}
 
 src_install() {
     declare ELECTRON_HOME=/usr/lib/${_PN}8
 
 	dodir ${ELECTRON_HOME%/*}
 
-	insinto ${ELECTRON_HOME}/locales
-		doins -r locales/*
-    
-    insinto ${ELECTRON_HOME}/resources
-		doins -r resources/*
-    
-    insinto ${ELECTRON_HOME}/swiftshader
-		doins -r swiftshader/*
-    
-    insinto ${ELECTRON_HOME}
-        doins *
+	insinto ${ELECTRON_HOME}
+		doins -r *
     
     fperms u+s ${ELECTRON_HOME}/chrome-sandbox
 
 	dosym "${ELECTRON_HOME}/${_PN}" "/usr/bin/${_PN}8" || die
 	
 	for _license in 'LICENSE' 'LICENSES.chromium.html'; do
-		doins "$_license" "/usr/share/licenses/${PN}/$_license" || die
+		insinto "/usr/share/licenses/${PN}"
+		doins "$_license" || die
 	done
 }
 
