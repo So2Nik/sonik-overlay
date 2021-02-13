@@ -39,6 +39,14 @@ flaggie app-eselect/eselect-electron::electron +~amd64
 flaggie dev-util/electron:8::sonik-overlay +~amd64
 ```
 
+If you want ferdi-9999, enable [menelkir overlay](https://gitlab.com/menelkir/gentoo-overlay) and unmask electron:9 package.
+
+``` sh
+eselect repository enable menelkir
+emaint sync -r menelkir
+flaggie dev-util/electron:9::menelkir +~amd64
+```
+
 ## Credits
 
 [menelkir overlay](https://gitlab.com/menelkir/gentoo-overlay) for electron:8 ebuild.
