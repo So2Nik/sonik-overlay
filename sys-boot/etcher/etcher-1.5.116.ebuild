@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eapply* git-r3 xdg-utils
+inherit git-r3 xdg-utils
 
 DESCRIPTION="Flash OS images to SD cards & USB drives, safely and easily."
 HOMEPAGE="https://etcher.io"
@@ -44,7 +44,9 @@ BDEPEND="
 #"
 
 RDEPEND="
-	=dev-util/electron-9*
+	|| ( =dev-util/electron-9*
+         dev-util/electron-bin:9
+    )
 	x11-libs/gtk+:3
 	x11-libs/libXtst
 	x11-libs/libXScrnSaver
