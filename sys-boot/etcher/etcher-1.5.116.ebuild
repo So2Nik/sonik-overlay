@@ -44,7 +44,7 @@ BDEPEND="
 #"
 
 RDEPEND="
-	dev-util/electron-9*
+	=dev-util/electron-9*
 	x11-libs/gtk+:3
 	x11-libs/libXtst
 	x11-libs/libXScrnSaver
