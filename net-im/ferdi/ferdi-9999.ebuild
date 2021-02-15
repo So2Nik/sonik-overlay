@@ -44,14 +44,15 @@ PATCHES=( "${FILESDIR}"/fix-autostart-path-git.diff )
 RDEPEND="dev-util/electron:9
         x11-libs/libxkbfile"
         
-BDEPEND="dev-vcs/git
-        net-libs/nodejs[npm]
-        python:2.7
-        || ( python:3.7
-              python:3.8
-              python:3.9
-           )"
-           
+BDEPEND="
+    net-libs/nodejs[npm]
+    dev-lang/python:2.7
+    || ( dev-lang/python:3.7
+         dev-lang/python:3.8
+         dev-lang/python:3.9
+       )
+"
+       
 DEPEND="!net-im/ferdi-bin"
 
 S=${WORKDIR}
