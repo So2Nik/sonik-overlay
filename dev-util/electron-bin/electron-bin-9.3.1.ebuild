@@ -13,7 +13,7 @@ HOMEPAGE="https://${_PN}js.org"
 IUSE="appindicator deletion kde xdg"
 
 LICENSE="MIT"
-SLOT="8"
+SLOT="9"
 KEYWORDS="~amd64 ~x86 ~arm ~arm64"
 COMMON_URI="https://github.com/${_PN}/${_PN}/releases/download/v${PV}"
 SRC_URI="amd64? ( ${COMMON_URI}/chromedriver-v${PV}-linux-x64.zip
