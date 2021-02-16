@@ -7,7 +7,8 @@ inherit git-r3 xdg-utils
 
 DESCRIPTION="Flash OS images to SD cards & USB drives, safely and easily."
 HOMEPAGE="https://etcher.io"
-EGIT_REPO_URI="https://github.com/balena-io/${PN}.git#tag=v${PV}"
+EGIT_REPO_URI="https://github.com/balena-io/${PN}.git"
+EGIT_OVERRIDE_COMMIT_BALENA_IO_ETCHER_GIT_TAG_V1_5_116
 #RESTRICT="mirror"
 
 LICENSE="Apache-2.0"
