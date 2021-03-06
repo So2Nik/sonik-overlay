@@ -26,7 +26,7 @@ RDEPEND="dev-qt/qtquickcontrols2
     kde-frameworks/kfilemetadata
     kde-frameworks/kio
     kde-frameworks/kirigami
-    media-video/mpv
+    media-video/mpv[libmpv]
 "
 
 #S=${WORKDIR}
