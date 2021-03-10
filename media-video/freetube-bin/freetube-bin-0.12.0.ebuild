@@ -62,8 +62,8 @@ src_install() {
 
 	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${PN} || die
 	
-	insinto /usr/share/doc/${_PN}
-	doins usr/share/doc/${P}/changelog.gz
+	insinto /usr/share/doc/${P}
+	doins usr/share/doc/${_PN}/changelog.gz
 
 #    for _size in 16 32 48 64 128 256; do
 #        doicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" || die
