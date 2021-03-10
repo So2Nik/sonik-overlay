@@ -65,12 +65,15 @@ src_install() {
 	insinto /usr/share/doc/${_PN}
 	doins usr/share/doc/${_PN}/changelog.gz
 
-    for _size in 16 32 48 64 128 256; do
-        doicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" || die
-	done
+#    for _size in 16 32 48 64 128 256; do
+#        doicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" || die
+#	done
 	
 	# Install a 256x256 icon into /usr/share/pixmaps for legacy DEs
-	doicon "usr/share/icons/hicolor/256x256/apps/${_PN}.png" || die
+#	doicon "usr/share/icons/hicolor/256x256/apps/${_PN}.png" || die
+
+    insinto /usr/share/icons/hicolor/scalable/apps
+    doins usr/share/icons/hicolor/scalable/apps/${_PN}.svg
 
     domenu "usr/share/applications/${_PN}.desktop"
 }
