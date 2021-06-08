@@ -21,10 +21,10 @@ RDEPEND="x11-libs/gtk+:3
         dev-python/protobuf-python
         dev-python/pynacl
         dev-python/setproctitle
-        system-zeroconf? (dev-python/zeroconf)
+        system-zeroconf? ( dev-python/zeroconf )
         dev-python/xapp
         x11-apps/xapps
-        polkit? (sys-auth/polkit)
+        polkit? ( sys-auth/polkit )
         "
 BDEPEND="dev-util/meson
         dev-libs/gobject-introspection"
