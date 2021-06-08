@@ -7,6 +7,7 @@ DESCRIPTION="Share files across the LAN"
 KEYWORDS=""
 HOMEPAGE="https://github.com/linuxmint/$PN"
 LICENSE="GPL-3"
+SLOT="0"
 
 IUSE="system-zeroconf"
 
