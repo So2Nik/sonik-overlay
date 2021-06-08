@@ -9,7 +9,7 @@ HOMEPAGE="https://github.com/linuxmint/$PN"
 LICENSE="GPL-3"
 SLOT="0"
 
-IUSE="system-zeroconf"
+IUSE="polkit system-zeroconf"
 
 RDEPEND="x11-libs/gtk+:3
         net-misc/networkmanager
