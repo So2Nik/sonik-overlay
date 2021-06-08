@@ -23,7 +23,7 @@ RDEPEND="x11-libs/gtk+:3
         dev-python/setproctitle
         system-zeroconf? ( dev-python/zeroconf )
         dev-python/xapp
-        x11-apps/xapps
+        x11-libs/xapps
         polkit? ( sys-auth/polkit )
         "
 BDEPEND="dev-util/meson
