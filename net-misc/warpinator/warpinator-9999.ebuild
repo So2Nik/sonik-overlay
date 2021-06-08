@@ -34,11 +34,13 @@ BDEPEND="dev-util/meson
 EGIT_REPO_URI="$HOMEPAGE.git"
 
 src_prepare() {
-    git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+    #git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 	
 	# Fix hard-coded libexec dir
 	sed -i 's/libexec/lib/g' "bin/${PN}.in" "data/org.x.${PN}.policy.in.in"
 	sed -i 's/libexecdir="@libexecdir@"/libexecdir="@libdir@"/g' src/config.py.in
+	
+	default
 }
 
 src_configure() {
