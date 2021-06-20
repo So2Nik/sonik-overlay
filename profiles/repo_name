@@ -1,2 +1,2 @@
 sonik-overlay
-masters = gentoo
+masters = gentoo src_prepare-overlay

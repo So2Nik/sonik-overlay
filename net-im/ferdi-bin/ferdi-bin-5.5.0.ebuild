@@ -16,7 +16,7 @@ HOMEPAGE="https://getferdi.com"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="-* ~amd64"
 SRC_URI="https://github.com/get${_PN}/${_PN}/releases/download/v${PV}/${_PN}-${PV}.x86_64.rpm"
 
 RDEPEND="media-libs/alsa-lib
@@ -35,9 +35,9 @@ RDEPEND="media-libs/alsa-lib
     dev-libs/nss
     dev-libs/re2
     app-arch/snappy"
-        
+
 DEPEND="!net-im/ferdi"
-        
+
 QA_PREBUILT="*"
 
 S=${WORKDIR}
@@ -48,14 +48,13 @@ src_unpack() {
 
 src_prepare() {
 	sed -E -i -e "s|Exec=/opt/${_PN^}/${_PN}|Exec=/usr/bin/${PN}|" "usr/share/applications/${_PN}.desktop"
-
 	default
 }
 
 src_install() {
     declare FERDI_HOME=/opt/${_PN}
 
-    pushd opt/Ferdi/locales > /dev/null || die
+    pushd opt/Ferdi/locales > /dev/null
     sonik_remove_language_paks
     popd
 
@@ -68,20 +67,25 @@ src_install() {
     exeopts -m0755
     doexe "opt/${_PN^}/${_PN}"
 
-	dosym "${FERDI_HOME}/${_PN}" "/usr/bin/${PN}" || die
+	dosym "${FERDI_HOME}/${_PN}" "/usr/bin/${PN}"
 
 	newmenu usr/share/applications/${_PN}.desktop ${PN}.desktop
 
 	for _size in 16 24 32 48 64 96 128 256 512; do
-        newicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png" || die
+        newicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png"
     done
 
     # desktop eclass does not support installing 1024x1024 icons
     insinto /usr/share/icons/hicolor/1024x1024/apps
-    newins "usr/share/icons/hicolor/1024x1024/apps/${_PN}.png" "${PN}.png" || die
+    newins "usr/share/icons/hicolor/1024x1024/apps/${_PN}.png" "${PN}.png"
 
     # Installing 128x128 icon in /usr/share/pixmaps for legacy DEs
-    newicon "usr/share/icons/hicolor/128x128/apps/${_PN}.png" "${PN}.png" || die
+    newicon "usr/share/icons/hicolor/128x128/apps/${_PN}.png" "${PN}.png"
+
+    for _license in 'LICENSE.electron.txt' 'LICENSES.chromium.html'; do
+		insinto /usr/share/licenses/${PN}
+		doins opt/${_PN}/$_license
+	done
 }
 
 pkg_postinst() {

@@ -17,7 +17,7 @@ HOMEPAGE="https://github.com/FreeTubeApp/FreeTube"
 
 LICENSE="AGPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64"
+KEYWORDS="-* ~amd64 ~arm64"
 SRC_URI="amd64? ( https://github.com/FreeTubeApp/FreeTube/releases/download/v${PV}-beta/freetube_${PV}_amd64.deb -> ${P}-amd64.deb )
     arm64? ( https://github.com/FreeTubeApp/FreeTube/releases/download/v${PV}-beta/freetube_${PV}_arm64.deb -> ${P}-arm64.deb )"
 
