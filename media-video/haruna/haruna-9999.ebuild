@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,13 +16,13 @@ EGIT_REPO_URI="${HOMEPAGE}.git"
 
 BDEPEND="kde-frameworks/extra-cmake-modules"
 
-RDEPEND="dev-qt/qtquickcontrols2
-    kde-frameworks/breeze-icons
-    kde-frameworks/kfilemetadata
-    kde-frameworks/kio
-    kde-frameworks/kirigami
-    media-video/mpv[libmpv]
-"
+RDEPEND="
+        dev-qt/qtquickcontrols2
+        kde-frameworks/breeze-icons
+        kde-frameworks/kfilemetadata
+        kde-frameworks/kio
+        kde-frameworks/kirigami
+        media-video/mpv[libmpv]"
 
 src_prepare() {
     cmake_src_prepare
@@ -35,14 +35,6 @@ src_configure() {
             -DCMAKE_INSTALL_PREFIX='/usr'
             -Wno-dev
     )
-    
+
     cmake_src_configure
 }
-
-#pkg_postinst() {
-#	xdg_desktop_database_update
-#}
- 
-#pkg_postrm() {
-#	xdg_desktop_database_update
-#}

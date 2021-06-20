@@ -27,4 +27,3 @@ RDEPEND="
 		sys-kernel/liquorix-sources
 		sys-kernel/xanmod-sources
 	)"
-	

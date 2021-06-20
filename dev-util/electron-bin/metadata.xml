@@ -2,18 +2,12 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>elvis@magic.io</email>
-		<name>Elvis Pranskevichus</name>
-	</maintainer>
-	<maintainer type="project">
-		<email>proxy-maint@gentoo.org</email>
-		<name>Proxy Maintainers</name>
+		<email>so2nik@protonmail.com</email>
+		<name>sonik</name>
 	</maintainer>
 	<longdescription>Electron is a cross platform application development framework based on web technologies based on Chromium</longdescription>
 	<use>
 		<flag name="appindicator">StatusNotifierItem support</flag>
-		<flag name="deletion">Enable file deletion support.</flag>
-		<flag name="kde">Enable file deletion support for KDE (kioclient5). See USE=deletion.</flag>
 		<flag name="xdg">Open URLs with desktop's default (xdg-email, xdg-open).</flag>
 	</use>
 	<upstream>

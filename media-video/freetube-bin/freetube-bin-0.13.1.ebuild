@@ -18,10 +18,8 @@ HOMEPAGE="https://github.com/FreeTubeApp/FreeTube"
 LICENSE="AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~arm64"
-SRC_URI="
-    amd64? ( https://github.com/FreeTubeApp/FreeTube/releases/download/v${PV}-beta/freetube_${PV}_amd64.deb -> ${P}-amd64.deb )
-    arm64? ( https://github.com/FreeTubeApp/FreeTube/releases/download/v${PV}-beta/freetube_${PV}_arm64.deb -> ${P}-arm64.deb )
-"
+SRC_URI="amd64? ( https://github.com/FreeTubeApp/FreeTube/releases/download/v${PV}-beta/freetube_${PV}_amd64.deb -> ${P}-amd64.deb )
+    arm64? ( https://github.com/FreeTubeApp/FreeTube/releases/download/v${PV}-beta/freetube_${PV}_arm64.deb -> ${P}-arm64.deb )"
 
 QA_PREBUILT="opt/FreeTube/swiftshader/libEGL.so
     opt/FreeTube/swiftshader/libGLESv2.so
@@ -31,8 +29,7 @@ QA_PREBUILT="opt/FreeTube/swiftshader/libEGL.so
     opt/FreeTube/libGLESv2.so
     opt/FreeTube/libffmpeg.so
     opt/FreeTube/libvk_swiftshader.so
-    opt/FreeTube/libvulkan.so
-"
+    opt/FreeTube/libvulkan.so"
 
 S=${WORKDIR}
 

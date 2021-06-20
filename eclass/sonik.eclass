@@ -6,7 +6,7 @@
 # Sonik <so2nik@protonmail.com>
 # @AUTHOR:
 # Sonik <so2nik@protonmail.com>
-# @BLURB: Shared functions for freetube
+# @BLURB: Shared functions for my ebuilds.
 
 #inherit eutils
 

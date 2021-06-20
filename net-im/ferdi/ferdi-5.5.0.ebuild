@@ -1,7 +1,18 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
+
+PYTHON_COMPAT=( python2_7 python3_{7..10} )
+
+inherit desktop python-any-r1
+
+DESCRIPTION="Combine your favorite messaging services into one application"
+HOMEPAGE="https://getferdi.com/"
+
+LICENSE="Apache-2.0"
+SLOT="0"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 _recipescommit='3054fd4c362b5be81b5cdd48535a0e7078fcd0a6'
 _internalservercommit='95ae59926dbd88d55a5377be997558a9e112ab49'
@@ -29,33 +40,28 @@ if [ "$_electronbuilderarch" != 'x64' ]; then
 fi
 _outpath="$_outpath-unpacked"
 
-inherit xdg-utils
+SRC_URI="
+        https://github.com/get${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-v${PV}.tar.gz
+        https://github.com/get${PN}/recipes/archive/$_recipescommit.tar.gz -> ${PN}-$_recipescommit.tar.gz
+        https://github.com/get${PN}/internal-server/archive/$_internalservercommit.tar.gz -> ${PN}-$_internalservercommit.tar.gz"
 
-DESCRIPTION="A messaging browser that allows you to combine your favorite messaging services into one application"
-HOMEPAGE="https://get${PN}.com"
-
-LICENSE="Apache-2.0"
-SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
-SRC_URI="https://github.com/get${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-v${PV}.tar.gz
-	      https://github.com/get${PN}/recipes/archive/$_recipescommit.tar.gz -> ${PN}-$_recipescommit.tar.gz
-	      https://github.com/get${PN}/internal-server/archive/$_internalservercommit.tar.gz -> ${PN}-$_internalservercommit.tar.gz"
-        
 PATCHES=( "${FILESDIR}"/fix-autostart-path.diff )
 
-RDEPEND="dev-util/electron:8
+RDEPEND="
+        dev-util/electron-bin:8
         x11-libs/libxkbfile"
-        
-BDEPEND="dev-vcs/git
+
+BDEPEND="
+        dev-vcs/git
         net-libs/nodejs[npm]
-        python:2.7
-        || ( python:3.7
-              python:3.8
-              python:3.9
+        dev-lang/python:2.7
+        || (    dev-lang/python:3.7
+                dev-lang/python:3.8
+                dev-lang/python:3.9
            )"
 
 DEPEND="!net-im/ferdi-bin"
-           
+
 S=${WORKDIR}
 
 src_prepare() {
@@ -86,24 +92,11 @@ src_prepare() {
 	if [ "$_electronbuilderarch" != 'x64' ] && [ "$_electronbuilderarch" != 'ia32' ]; then
 		HOME="${S}/$_homedirectory" npm rebuild node-sass
 	fi
-	
+
     cat << EOF > "usr/bin/${PN}"
 #!/bin/sh
 NODE_ENV=production exec electron8 '/usr/lib/${PN}/app.asar' "\$@"
 EOF
-	
-#	cat << EOF > "usr/share/applications/${PN}.desktop"
-#[Desktop Entry]
-#Name=${PN^}
-#Exec=/usr/bin/${PN} %U
-#Terminal=false
-#Type=Application
-#Icon=${PN}
-#StartupWMClass=${PN^}
-#Comment=Ferdi is your messaging app / former Emperor of Austria and combines chat & messaging services into one application. Ferdi currently supports Slack, WhatsApp, WeChat, HipChat, Facebook Messenger, Telegram, Google Hangouts, GroupMe, Skype and many more. You can download Ferdi for free for Mac & Windows.
-#MimeType=x-scheme-handler/ferdi;
-#Categories=Network;InstantMessaging;
-#EOF
 
 	default
 }
@@ -117,42 +110,30 @@ src_compile() {
 
 src_install() {
 	insinto /usr/lib/${PN}
-        doins ${_sourcedirectory}/${_outpath}/resources/app.asar
-    
+    doins ${_sourcedirectory}/${_outpath}/resources/app.asar
+
     insinto /usr/lib/${PN}/app.asar.unpacked
-        doins -r usr/lib/${PN}/app.asar.unpacked/*
-    
+    doins -r usr/lib/${PN}/app.asar.unpacked/*
+
     insinto /usr/lib/${PN}/app.asar.unpacked/recipes
-        doins -r ${_sourcedirectory}/${_outpath}/resources/app.asar.unpacked/recipes/*
+    doins -r ${_sourcedirectory}/${_outpath}/resources/app.asar.unpacked/recipes/*
 
 	insinto /usr/bin
-        doins -r usr/bin/*
-  
-    exeinto /usr/bin
-        doexe "usr/bin/${PN}"
-        
-    make_desktop_entry "/usr/bin/${PN} %U" "${PN^}" "${PN}" "Network;InstantMessaging;" "Type=Application\nStartupWMClass=${PN^}\nComment=Ferdi is your messaging app / former Emperor of Austria and combines chat & messaging services into one application. Ferdi currently supports Slack, WhatsApp, WeChat, HipChat, Facebook Messenger, Telegram, Google Hangouts, GroupMe, Skype and many more. You can download Ferdi for free for Mac & Windows.\nMimeType=x-scheme-handler/ferdi;\nTerminal=false"
+    doins -r usr/bin/*
 
-#	domenu "usr/share/applications/${PN}.desktop"
+    exeinto /usr/bin
+    doexe "usr/bin/${PN}"
+
+    make_desktop_entry "/usr/bin/${PN} %U" "${PN^}" "${PN}" "Network;InstantMessaging;" "Type=Application\nStartupWMClass=${PN^}\nComment=Ferdi is your messaging app / former Emperor of Austria and combines chat & messaging services into one application. Ferdi currently supports Slack, WhatsApp, WeChat, HipChat, Facebook Messenger, Telegram, Google Hangouts, GroupMe, Skype and many more. You can download Ferdi for free for Mac & Windows.\nMimeType=x-scheme-handler/ferdi;\nTerminal=false"
 
 	for _size in 16 24 32 48 64 96 128 256 512; do
         newicon -s ${_size} "usr/share/icons/hicolor/${_size}x${_size}/apps/${_PN}.png" "${PN}.png" || die
     done
-    
+
     # desktop eclass does not support installing 1024x1024 icons
     insinto /usr/share/icons/hicolor/1024x1024/apps
-        newins "usr/share/icons/hicolor/1024x1024/apps/${_PN}.png" "${PN}.png" || die
-    
+    newins "usr/share/icons/hicolor/1024x1024/apps/${_PN}.png" "${PN}.png" || die
+
     # Installing 128x128 icon in /usr/share/pixmaps for legacy DEs
     newicon "usr/share/icons/hicolor/128x128/apps/${_PN}.png" "${PN}.png" || die
-}
-
-pkg_postinst() {
-	xdg_desktop_database_update
-	xdg_mimeinfo_database_update
-}
-
-pkg_postrm() {
-	xdg_desktop_database_update
-	xdg_mimeinfo_database_update
 }

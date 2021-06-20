@@ -11,24 +11,22 @@ SONIK_LANGS="am ar bg bn ca cs da de el en-GB en-US es es-419 et fa fi fil fr gu
 
 inherit desktop sonik
 
-DESCRIPTION="Build cross platform desktop apps with web technologies - version 8 - binary version"
-HOMEPAGE="https://${_PN}js.org"
+DESCRIPTION="Build cross platform desktop apps with web technologies (version 9)"
+HOMEPAGE="https://electronjs.org"
 
-IUSE="appindicator deletion kde xdg"
+IUSE="appindicator xdg"
 
 LICENSE="MIT"
 SLOT="9"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 COMMON_URI="https://github.com/${_PN}/${_PN}/releases/download/v${PV}"
-SRC_URI="amd64? ( ${COMMON_URI}/chromedriver-v${PV}-linux-x64.zip
-                   ${COMMON_URI}/${_PN}-v${PV}-linux-x64.zip )
-        x86? ( ${COMMON_URI}/chromedriver-v${PV}-linux-ia32.zip
-                   ${COMMON_URI}/${_PN}-v${PV}-linux-ia32.zip )
-        arm? ( ${COMMON_URI}/chromedriver-v${PV}-linux-armv7l.zip
-               ${COMMON_URI}/${_PN}-v${PV}-linux-armv7l.zip )
-        arm64? ( ${COMMON_URI}/chromedriver-v${PV}-linux-arm64.zip
-                 ${COMMON_URI}/${_PN}-v${PV}-linux-arm64.zip )"
+SRC_URI="amd64? ( ${COMMON_URI}/chromedriver-v${PV}-linux-x64.zip ${COMMON_URI}/${_PN}-v${PV}-linux-x64.zip )
+        x86? ( ${COMMON_URI}/chromedriver-v${PV}-linux-ia32.zip ${COMMON_URI}/${_PN}-v${PV}-linux-ia32.zip )
+        arm? ( ${COMMON_URI}/chromedriver-v${PV}-linux-armv7l.zip ${COMMON_URI}/${_PN}-v${PV}-linux-armv7l.zip )
+        arm64? ( ${COMMON_URI}/chromedriver-v${PV}-linux-arm64.zip ${COMMON_URI}/${_PN}-v${PV}-linux-arm64.zip )"
         
+BDEPEND="app-arch/unzip"
+
 RDEPEND="net-dns/c-ares
         media-video/ffmpeg
         x11-libs/gtk+:3
@@ -40,12 +38,9 @@ RDEPEND="net-dns/c-ares
         dev-libs/nss
         dev-libs/re2
         app-arch/snappy
-        deletion? ( kde? ( kde-plasma/kde-cli-tools )
-                    !kde? ( app-misc/trash-cli )
-                  )
         appindicator? ( dev-libs/libappindicator )
-        xdg? ( x11-misc/xdg-utils )"
-        
+        xdg? ( x11-misc/xdg-utils )" 
+
 DEPEND="!dev-util/electron:${SLOT}"
         
 QA_PREBUILT="*"
