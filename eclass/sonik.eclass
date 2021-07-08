@@ -15,6 +15,10 @@
 # @DESCRIPTION:
 # List of language packs available for this package.
 
+# @FUNCTION: _sonik_set_l10n_IUSE
+# @USAGE:
+# @DESCRIPTION:
+# Adds localization IUSE flags according to values of SONIK_LANGS in the ebuild.
 _sonik_set_l10n_IUSE() {
 	[[ ${EAPI:-0} == 0 ]] && die "EAPI=${EAPI} is not supported"
 

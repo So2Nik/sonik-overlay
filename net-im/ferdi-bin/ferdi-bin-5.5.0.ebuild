@@ -19,22 +19,23 @@ SLOT="0"
 KEYWORDS="-* ~amd64"
 SRC_URI="https://github.com/get${_PN}/${_PN}/releases/download/v${PV}/${_PN}-${PV}.x86_64.rpm"
 
-RDEPEND="media-libs/alsa-lib
-    net-dns/c-ares
-    media-video/ffmpeg
-    x11-libs/gtk+:3
-    dev-python/http-parser
-    dev-libs/libevent
-    net-libs/nghttp2
-    app-crypt/libsecret
-    x11-libs/libxkbfile
-    dev-libs/libxslt
-    x11-libs/libXScrnSaver
-    x11-libs/libXtst
-    sys-libs/zlib[minizip]
-    dev-libs/nss
-    dev-libs/re2
-    app-arch/snappy"
+RDEPEND="
+media-libs/alsa-lib
+net-dns/c-ares
+media-video/ffmpeg
+x11-libs/gtk+:3
+dev-python/http-parser
+dev-libs/libevent
+net-libs/nghttp2
+app-crypt/libsecret
+x11-libs/libxkbfile
+dev-libs/libxslt
+x11-libs/libXScrnSaver
+x11-libs/libXtst
+sys-libs/zlib[minizip]
+dev-libs/nss
+dev-libs/re2
+app-arch/snappy"
 
 DEPEND="!net-im/ferdi"
 
@@ -82,10 +83,10 @@ src_install() {
     # Installing 128x128 icon in /usr/share/pixmaps for legacy DEs
     newicon "usr/share/icons/hicolor/128x128/apps/${_PN}.png" "${PN}.png"
 
+    insinto /usr/share/licenses/${PN}
     for _license in 'LICENSE.electron.txt' 'LICENSES.chromium.html'; do
-		insinto /usr/share/licenses/${PN}
-		doins opt/${_PN}/$_license
-	done
+    doins opt/${_PN}/$_license
+    done
 }
 
 pkg_postinst() {

@@ -17,24 +17,24 @@ EGIT_REPO_URI="${HOMEPAGE}.git"
 BDEPEND="kde-frameworks/extra-cmake-modules"
 
 RDEPEND="
-        dev-qt/qtquickcontrols2
-        kde-frameworks/breeze-icons
-        kde-frameworks/kfilemetadata
-        kde-frameworks/kio
-        kde-frameworks/kirigami
-        media-video/mpv[libmpv]"
+dev-qt/qtquickcontrols2
+kde-frameworks/breeze-icons
+kde-frameworks/kfilemetadata
+kde-frameworks/kio
+kde-frameworks/kirigami
+media-video/mpv[libmpv]"
 
 src_prepare() {
     cmake_src_prepare
     xdg_src_prepare
 }
 
-src_configure() {
-    local mycmakeargs=(
-            -DCMAKE_BUILD_TYPE='None'
-            -DCMAKE_INSTALL_PREFIX='/usr'
-            -Wno-dev
-    )
-
-    cmake_src_configure
-}
+# src_configure() {
+#     local mycmakeargs=(
+#             -DCMAKE_BUILD_TYPE='None'
+#             -DCMAKE_INSTALL_PREFIX='/usr'
+#             -Wno-dev
+#     )
+# 
+#     cmake_src_configure
+# }
