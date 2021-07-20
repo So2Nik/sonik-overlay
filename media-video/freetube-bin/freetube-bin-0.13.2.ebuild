@@ -1,13 +1,14 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 _PN="${PN/-bin/}"
 
-SONIK_LANGS="am ar bg bn ca cs da de el en-GB en-US es es-419 et fa fi fil fr gu he
-	hi hr hu id it ja kn ko lt lv ml mr ms nb nl pl pt-BR pt-PT ro ru sk sl sr
-	sv sw ta te th tr uk vi zh-CN zh-TW"
+SONIK_LANGS="
+am ar bg bn ca cs da de el en-GB en-US es es-419 et fa fi fil fr gu he
+hi hr hu id it ja kn ko lt lv ml mr ms nb nl pl pt-BR pt-PT ro ru sk sl sr
+sv sw ta te th tr uk vi zh-CN zh-TW"
 
 inherit desktop sonik xdg-utils
 
@@ -37,7 +38,11 @@ S=${WORKDIR}
 src_prepare() {
 	bsdtar -x -f data.tar.xz
     rm data.tar.xz control.tar.gz debian-binary
-    default
+    pushd usr/share/doc/${_PN} > /dev/null
+    gzip -d changelog.gz
+    popd
+
+	default
 }
 
 src_install() {
@@ -62,7 +67,7 @@ src_install() {
 
 	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${PN} || die
 
-	dodoc usr/share/doc/${_PN}/changelog.gz
+	dodoc usr/share/doc/${_PN}/changelog
 
     insinto /usr/share/icons/hicolor/scalable/apps
     doins usr/share/icons/hicolor/scalable/apps/${_PN}.svg

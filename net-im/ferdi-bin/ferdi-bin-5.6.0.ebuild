@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 _PN="${PN/-bin/}"
 
@@ -16,8 +16,11 @@ HOMEPAGE="https://getferdi.com"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="-* ~amd64"
-SRC_URI="https://github.com/get${_PN}/${_PN}/releases/download/v${PV}/${_PN}-${PV}.x86_64.rpm"
+KEYWORDS="-* ~amd64 ~arm ~arm64"
+SRC_URI="
+amd64? ( https://github.com/get${_PN}/${_PN}/releases/download/v${PV}/${_PN}_${PV}_amd64.deb )
+arm? ( https://github.com/get${_PN}/${_PN}/releases/download/v${PV}/${_PN}_${PV}_armv7l.deb )
+arm64? ( https://github.com/get${_PN}/${_PN}/releases/download/v${PV}/${_PN}_${PV}_arm64.deb )"
 
 RDEPEND="
 media-libs/alsa-lib
@@ -43,11 +46,9 @@ QA_PREBUILT="*"
 
 S=${WORKDIR}
 
-src_unpack() {
-    bsdtar -x -f ${DISTDIR}/${_PN}-${PV}.x86_64.rpm
-}
-
 src_prepare() {
+    bsdtar -x -f data.tar.xz
+    rm data.tar.xz control.tar.gz debian-binary
 	sed -E -i -e "s|Exec=/opt/${_PN^}/${_PN}|Exec=/usr/bin/${PN}|" "usr/share/applications/${_PN}.desktop"
 	default
 }
@@ -85,7 +86,7 @@ src_install() {
 
     insinto /usr/share/licenses/${PN}
     for _license in 'LICENSE.electron.txt' 'LICENSES.chromium.html'; do
-    doins opt/${_PN}/$_license
+    doins opt/${_PN^}/$_license
     done
 }
 
