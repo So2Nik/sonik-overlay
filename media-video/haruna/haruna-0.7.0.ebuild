@@ -10,7 +10,7 @@ HOMEPAGE="https://invent.kde.org/multimedia/haruna"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-SRC_URI="https://invent.kde.org/multimedia/${PN}/-/archive/${PV}/${P}.tar.gz"
+SRC_URI="https://invent.kde.org/multimedia/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.gz"
 
 BDEPEND="kde-frameworks/extra-cmake-modules"
 
