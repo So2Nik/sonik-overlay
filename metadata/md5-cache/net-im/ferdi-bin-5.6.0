@@ -1,4 +1,4 @@
-DEFINED_PHASES=install postinst postrm prepare unpack
+DEFINED_PHASES=install postinst postrm prepare
 DEPEND=!net-im/ferdi
 DESCRIPTION=Combine your favorite messaging services into one application
 EAPI=8
@@ -11,4 +11,4 @@ RDEPEND=media-libs/alsa-lib net-dns/c-ares media-video/ffmpeg x11-libs/gtk+:3 de
 SLOT=0
 SRC_URI=amd64? ( https://github.com/getferdi/ferdi/releases/download/v5.6.0/ferdi_5.6.0_amd64.deb ) arm? ( https://github.com/getferdi/ferdi/releases/download/v5.6.0/ferdi_5.6.0_armv7l.deb ) arm64? ( https://github.com/getferdi/ferdi/releases/download/v5.6.0/ferdi_5.6.0_arm64.deb )
 _eclasses_=desktop	c0d27bf73aa08ca05b663dbd31fbef28	sonik	b4703849c2625be9e5f5faef85b7cdc7	xdg-utils	27f9a2f19502b925ac117bd657aa2979
-_md5_=de3ea7b29006e018bae3efc24c436d1b
+_md5_=657e503645e1b168e83804ad713ee022

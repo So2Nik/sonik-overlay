@@ -1,8 +1,7 @@
-
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 _PN="${PN/-bin/}"
 
@@ -38,8 +37,10 @@ S=${WORKDIR}
 
 src_prepare() {
 	bsdtar -x -f data.tar.xz
-
     rm data.tar.xz control.tar.gz debian-binary
+    pushd usr/share/doc/${_PN} > /dev/null
+    gzip -d changelog.gz
+    popd
 
 	default
 }
@@ -66,7 +67,7 @@ src_install() {
 
 	dosym ${FREETUBE_HOME}/${_PN} /usr/bin/${PN} || die
 
-	dodoc usr/share/doc/${_PN}/changelog.gz
+	dodoc usr/share/doc/${_PN}/changelog
 
     insinto /usr/share/icons/hicolor/scalable/apps
     doins usr/share/icons/hicolor/scalable/apps/${_PN}.svg
