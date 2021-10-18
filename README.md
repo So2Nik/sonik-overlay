@@ -1,6 +1,6 @@
 # sonik Gentoo overlay
 
-This is an unofficial overlay for ferdi, freetube and haruna video player among a few other things.
+This is an unofficial gentoo overlay for ferdi, freetube and haruna video player among a few other things.
 
 ## Adding the overlay
 
