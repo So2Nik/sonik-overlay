@@ -1,0 +1,10 @@
+Title: multiple changes in repository
+Author: SoNik <so2nik@protonmail.com>
+Content-Type: text/plain
+Posted: 2021-11-04
+Revision: 1
+News-Item-Format: 2.0
+
+Along with new versions of freetube-bin and haruna, the eclass sonik is renamed to electron.
+
+The old sonik eclass will be kept until all ebuilds inheriting it is deprecated.
