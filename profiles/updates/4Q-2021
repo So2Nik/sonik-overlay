@@ -1,1 +1,1 @@
-copy eclass/sonik eclass/electron
+move eclass/sonik eclass/electron

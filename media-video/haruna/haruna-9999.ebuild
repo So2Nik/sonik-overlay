@@ -25,6 +25,6 @@ kde-frameworks/kirigami
 media-video/mpv[libmpv]"
 
 src_prepare() {
-    cmake_src_prepare
-    xdg_src_prepare
+	cmake_src_prepare
+	xdg_src_prepare
 }
