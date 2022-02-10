@@ -39,6 +39,7 @@ See [examples/package.accept_keywords/sonik-overlay](examples/package.accept_key
 ## Credits
 
 [src_prepare-overlay](https://gitlab.com/src_prepare/src_prepare-overlay) for repository general structure.
+[Emilien Mottet](https://github.com/EmilienMottet) for improved ferdi-bin ebuild.
 AUR for various PKGBUILDS of which the ebuilds are based off of.
 
 # Submitting an Issue
