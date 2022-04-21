@@ -1,0 +1,10 @@
+Title: removed haruna and freetube
+Author: SoNik <so2nik@protonmail.com>
+Content-Type: text/plain
+Posted: 2022-04-21
+Revision: 1
+News-Item-Format: 2.0
+
+haruna ebuild is removed as it is available at nest overlay.
+
+freetube-bin is also removed as it is available at GURU overlay as net-misc/freetube-bin. See https://wiki.gentoo.org/wiki/FreeTube
